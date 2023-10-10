@@ -16,5 +16,13 @@ CHIP PC {
     OUT out[16];
 
     PARTS:
-    // Put your code here:
+    // register, incrementor, logic gates
+    Inc16(in=ro, out=incro);
+    Mux16(a=in, b=incro, sel=inc, out=o1);
+    Mux16(a=o1, b=in, sel=load, out=o2);
+    Mux16(a=o2, b=false, sel=reset, out=ri);
+    Or(a=load, b=reset, out=loadreset);
+    Or(a=loadreset, b=inc, out=sel);
+    Register(in=ri, load=sel, out=ro);
+    Or16(a=ro, b=ro, out=out);
 }
